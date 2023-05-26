@@ -1,9 +1,8 @@
-To listen and respond to messages you must add a messagebroker.php to
-the root directory of your plugin and have it implement the one-to-one
-callback for build_message_receivers.
-It is expected that this return a list of instantiated message receivers.
+### Moodle Message Broker
+Provides a conduit for message queues to feed messages into Moodle instances.
 
-Message receiver:
-A class that can receive and process a message.
-Implements the local_messagebroker\receiver\message_receiver interface.
+Connector sub-plugins provide the ability to consume messages from other
+sources. Out of the box there is a web service that allows other systems
+to POST messages with a topic to the Moodle system.
 
+Future functionality is expected to support STOMP, AMQP and SQS.
