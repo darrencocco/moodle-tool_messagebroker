@@ -1,5 +1,6 @@
 {
     "plugintypes": {
-        "messagebrokerconnector": "local\/messagebroker\/connectors"
+        "messagebrokerconnector": "local\/messagebroker\/connectors",
+        "messagebrokerdatastore": "local\/messagebroker\/datastores"
     }
 }

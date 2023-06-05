@@ -2,7 +2,8 @@
 namespace local_messagebroker;
 
 use core\task\scheduled_task;
-use local_messagebroker\message\durable_dao;
+use local_messagebroker\message\durable_dao_factory;
+use local_messagebroker\message\durable_dao_interface;
 
 class durable_message_processor extends scheduled_task {
 
@@ -11,7 +12,8 @@ class durable_message_processor extends scheduled_task {
     }
 
     public function execute() {
-        $dao = new durable_dao();
+        $daovariant = 'messagebrokerdatastore_standarddb'; // TODO: replace with setting.
+        $dao = durable_dao_factory::make_durable_dao($daovariant);
         $processor = message_processor::instance();
         $maxmessagecount = 10; // TODO: replace with setting.
         $messages = $dao->get_upto_n_unprocessed_messages($maxmessagecount);

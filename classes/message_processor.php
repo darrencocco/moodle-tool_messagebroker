@@ -1,9 +1,10 @@
 <?php
 namespace local_messagebroker;
 
-use local_messagebroker\message\durable_dao;
+use local_messagebroker\message\durable_dao_interface;
 use local_messagebroker\message\immutable_message;
 use local_messagebroker\receiver\message_receiver;
+use messagebrokerdatastore_standarddb\durable_dao_factory;
 
 class message_processor {
     /**
@@ -11,7 +12,7 @@ class message_processor {
      */
     private array $messagereceivers;
 
-    private durable_dao $dao;
+    private durable_dao_interface $dao;
 
     private static message_processor $instance;
 
@@ -24,7 +25,8 @@ class message_processor {
 
     protected function __construct() {
         $this->messagereceivers = $this->get_message_receivers();
-        $this->dao = new durable_dao();
+        $durabledaoplugin = 'messagebrokerdatastore_standarddb';
+        $this->dao = durable_dao_factory::make_durable_dao($durabledaoplugin);
     }
 
     function process_message(immutable_message $message) {
