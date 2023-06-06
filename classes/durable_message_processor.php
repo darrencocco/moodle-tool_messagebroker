@@ -1,9 +1,9 @@
 <?php
-namespace local_messagebroker;
+namespace tool_messagebroker;
 
 use core\task\scheduled_task;
-use local_messagebroker\message\durable_dao_factory;
-use local_messagebroker\message\durable_dao_interface;
+use tool_messagebroker\message\durable_dao_factory;
+use tool_messagebroker\message\durable_dao_interface;
 
 class durable_message_processor extends scheduled_task {
 

@@ -1,5 +1,5 @@
 <?php
-namespace local_messagebroker\message;
+namespace tool_messagebroker\message;
 
 use messagebrokerdatastore_standarddb\durable_dao;
 

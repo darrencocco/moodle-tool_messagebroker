@@ -1,5 +1,5 @@
 <?php
-namespace local_messagebroker\message;
+namespace tool_messagebroker\message;
 
 interface durable_dao_interface {
     function write_new_message(immutable_message $message);

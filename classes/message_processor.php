@@ -1,9 +1,9 @@
 <?php
-namespace local_messagebroker;
+namespace tool_messagebroker;
 
-use local_messagebroker\message\durable_dao_interface;
-use local_messagebroker\message\immutable_message;
-use local_messagebroker\receiver\message_receiver;
+use tool_messagebroker\message\durable_dao_interface;
+use tool_messagebroker\message\immutable_message;
+use tool_messagebroker\receiver\message_receiver;
 use messagebrokerdatastore_standarddb\durable_dao_factory;
 
 class message_processor {

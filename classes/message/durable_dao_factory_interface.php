@@ -1,5 +1,5 @@
 <?php
-namespace local_messagebroker\message;
+namespace tool_messagebroker\message;
 
 interface durable_dao_factory_interface {
     static function make_durable_dao($variant): durable_dao_interface;

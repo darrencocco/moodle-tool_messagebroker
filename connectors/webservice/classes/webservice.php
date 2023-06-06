@@ -3,9 +3,9 @@ namespace messagebrokerconnector_http;
 
 use external_api;
 use external_value;
-use local_messagebroker\message\message;
-use local_messagebroker\message\received_message;
-use local_messagebroker\message_processor;
+use tool_messagebroker\message\message;
+use tool_messagebroker\message\received_message;
+use tool_messagebroker\message_processor;
 
 class webservice extends external_api {
 

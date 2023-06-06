@@ -1,8 +1,8 @@
 <?php
 namespace messagebrokerdatastore_standarddb;
 
-use local_messagebroker\message\durable_dao_interface;
-use local_messagebroker\message\immutable_message;
+use tool_messagebroker\message\durable_dao_interface;
+use tool_messagebroker\message\immutable_message;
 
 class durable_dao implements durable_dao_interface {
 

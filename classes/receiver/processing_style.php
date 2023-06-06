@@ -1,5 +1,5 @@
 <?php
-namespace local_messagebroker\receiver;
+namespace tool_messagebroker\receiver;
 
 class processing_style {
     const EPHEMERAL = "ephemeral";

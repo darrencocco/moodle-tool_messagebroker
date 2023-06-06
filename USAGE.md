@@ -5,4 +5,4 @@ It is expected that this return a list of instantiated message receivers.
 
 Message receiver:
 A class that can receive and process a message.
-Implements the local_messagebroker\receiver\message_receiver interface.
+Implements the tool_messagebroker\receiver\message_receiver interface.

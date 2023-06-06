@@ -1,7 +1,7 @@
 <?php
-namespace local_messagebroker\receiver;
+namespace tool_messagebroker\receiver;
 
-use local_messagebroker\message\immutable_message;
+use tool_messagebroker\message\immutable_message;
 
 /**
  * Interface that message receivers must implement.
@@ -11,7 +11,7 @@ interface message_receiver {
     function process_message(immutable_message $message): bool;
 
     /**
-     * @return string a processing style from \local_messagebroker\receiver\processing_style
+     * @return string a processing style from \tool_messagebroker\receiver\processing_style
      */
     function get_preferred_message_processing_method(): string;
 
