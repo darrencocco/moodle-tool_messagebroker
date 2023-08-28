@@ -26,7 +26,7 @@ class durable_dao implements durable_dao_interface {
         );
     }
 
-    public function update_processing_time(int $id, int $processingtime) {
+    public function notify_processing_attempt(string $id) {
         global $DB;
         $now = time();
 
@@ -39,7 +39,7 @@ class durable_dao implements durable_dao_interface {
         );
     }
 
-    public function mark_message_as_processed(int $id) {
+    public function mark_message_as_processed(string $id) {
         global $DB;
         $now = time();
 

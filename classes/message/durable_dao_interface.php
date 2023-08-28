@@ -4,9 +4,9 @@ namespace tool_messagebroker\message;
 interface durable_dao_interface {
     function write_new_message(immutable_message $message);
 
-    function update_processing_time(int $id, int $processingtime);
+    function notify_processing_attempt(string $id);
 
-    function mark_message_as_processed(int $id) ;
+    function mark_message_as_processed(string $id) ;
 
     /**
      * @param int $n

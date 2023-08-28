@@ -5,10 +5,10 @@ use stdClass;
 
 class message extends immutable_message {
     /**
-     * @param int $id
+     * @param string $id
      * @return self
      */
-    public function set_id(int $id): self {
+    public function set_id(string $id): self {
         $this->id = $id;
         return $this;
     }
