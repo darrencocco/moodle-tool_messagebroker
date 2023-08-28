@@ -1,5 +1,5 @@
 <?php
-namespace messagebrokerdatastore_standarddb;
+namespace mbdatastore_standarddb;
 
 use core\task\scheduled_task;
 
@@ -10,7 +10,7 @@ class durable_message_cleaner extends scheduled_task {
     }
 
     public function execute() {
-        $dao = durable_dao_factory::make_durable_dao('messagebrokerdatastore_standarddb');
+        $dao = durable_dao_factory::make_durable_dao('mbdatastore_standarddb');
         $dao->purge_completed_messages();
     }
 }

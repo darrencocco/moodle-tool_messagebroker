@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Strings for messagebrokerdatastore_standarddb.
+ * Strings for mbdatastore_standarddb.
  *
- * @package   messagebrokerdatastore_standarddb
+ * @package   mbdatastore_standarddb
  * @copyright 2023 Monash University
  * @author    Cameron Ball <cameronball@catalyst-au.net>
  */

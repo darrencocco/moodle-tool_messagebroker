@@ -6,7 +6,7 @@ use tool_messagebroker\message\durable_dao_interface;
 use tool_messagebroker\message\immutable_message;
 use tool_messagebroker\receiver\message_receiver;
 use tool_messagebroker\receiver\processing_style;
-use messagebrokerdatastore_standarddb\durable_dao_factory;
+use tool_messagebroker\message\durable_dao_factory;
 
 class message_processor {
     /**
@@ -82,7 +82,7 @@ class message_processor {
         // All receivers must be treated as ephemeral.
         if ($this->receivermode === processing_style::EPHEMERAL) {
             $ephemeralresults = array_map(
-                fn (message_receiver $receiver): bool => $receiver->process_message($message),
+                fn(message_receiver $receiver): bool => $receiver->process_message($message),
                 $receivers
             );
         }

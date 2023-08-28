@@ -20,9 +20,9 @@ if ($hassiteconfig) {
 
 
     if ($ADMIN->fulltree) {
-        $datastoreplugins = array_keys(core_plugin_manager::instance()->get_installed_plugins('messagebrokerdatastore'));
+        $datastoreplugins = array_keys(core_plugin_manager::instance()->get_installed_plugins('mbdatastore'));
         $datastoreselections = array_map(
-            fn(string $pluginname): string => get_string('pluginname', 'messagebrokerdatastore_' . $pluginname),
+            fn(string $pluginname): string => get_string('pluginname', 'mbdatastore_' . $pluginname),
             array_combine($datastoreplugins, $datastoreplugins)
         );
 

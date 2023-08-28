@@ -12,7 +12,7 @@ class durable_message_processor extends scheduled_task {
     }
 
     public function execute() {
-        $daovariant = 'messagebrokerdatastore_standarddb'; // TODO: replace with setting.
+        $daovariant = 'mbdatastore_standarddb'; // TODO: replace with setting.
         $dao = durable_dao_factory::make_durable_dao($daovariant);
         $processor = message_processor::instance();
         $maxmessagecount = 10; // TODO: replace with setting.
