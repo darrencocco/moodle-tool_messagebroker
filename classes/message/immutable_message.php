@@ -4,7 +4,7 @@ namespace tool_messagebroker\message;
 use stdClass;
 
 class immutable_message {
-    protected int $id = 0;
+    protected string $id = '';
     protected string $topic;
     protected stdClass $body;
     protected bool $processingcomplete;
@@ -17,7 +17,7 @@ class immutable_message {
     /**
      * @return int
      */
-    public function get_id(): int {
+    public function get_id(): string {
         return $this->id;
     }
 

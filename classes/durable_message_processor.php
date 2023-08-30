@@ -12,13 +12,13 @@ class durable_message_processor extends scheduled_task {
     }
 
     public function execute() {
-        $daovariant = 'messagebrokerdatastore_standarddb'; // TODO: replace with setting.
+        $daovariant = 'mbdatastore_standarddb'; // TODO: replace with setting.
         $dao = durable_dao_factory::make_durable_dao($daovariant);
         $processor = message_processor::instance();
         $maxmessagecount = 10; // TODO: replace with setting.
         $messages = $dao->get_upto_n_unprocessed_messages($maxmessagecount);
         foreach ($messages as $message) {
-            $dao->update_processing_time($message->get_id(), time());
+            $dao->notify_processing_attempt($message->get_id());
             $processor->process_message($message);
             $dao->mark_message_as_processed($message->get_id());
         }
