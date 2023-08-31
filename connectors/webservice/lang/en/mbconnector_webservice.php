@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Strings for messagebrokerconnector_webservice.
+ * Strings for mbconnector_webservice.
  *
- * @package   messagebrokerconnector_webservice
+ * @package   mbconnector_webservice
  * @copyright 2023 Monash University
  * @author    Cameron Ball <cameronball@catalyst-au.net>
  */
