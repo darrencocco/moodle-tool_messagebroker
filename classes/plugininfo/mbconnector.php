@@ -13,5 +13,5 @@ use core\plugininfo\base;
  * @copyright 2023 Monash University
  * @author    Cameron Ball <cameronball@catalyst-au.net>
  */
-class messagebrokerconnector extends base {
+class mbconnector extends base {
 }

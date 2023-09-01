@@ -14,6 +14,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['datastore'] = 'Datastore plugin';
 $string['datastore_help'] = 'The selected datastore plugin will be used for persisting data associated with messages.';
+$string['messagebroker:submitmessage'] = "Submit a message to the Message Broker";
 $string['messagespertask'] = 'Messages per task';
 $string['messagespertask_help'] = 'The maximum number of messages which will be processed per execution of the Durable Message Processor task.';
 $string['pluginname'] = 'Message Broker';

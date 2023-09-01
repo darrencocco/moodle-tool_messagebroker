@@ -2,6 +2,8 @@
 namespace tool_messagebroker;
 
 use coding_exception;
+use Exception;
+use ReflectionClass;
 use tool_messagebroker\message\durable_dao_interface;
 use tool_messagebroker\message\immutable_message;
 use tool_messagebroker\receiver\message_receiver;
@@ -46,51 +48,55 @@ class message_processor {
         $this->messagereceivers = $this->get_message_receivers();
     }
 
-    public function process_message(immutable_message $message) {
-        $interestedreceivers = $this->filter_interested_receivers($message, $this->messagereceivers);
-
-        if ($message->is_persisted()) {
-            $this->process_stored_message($message, $interestedreceivers);
-        } else {
-            $this->process_new_message($message, $interestedreceivers);
-        }
-    }
 
     /**
      * @param immutable_message $message
      * @param message_receiver[] $receivers
-     * @return void
+     * @return array Array of receiverid => ['style' => , 'result' => ].
+                     Receiver ID is a string which uniquely identifies each
+                     receiver and where it came from. The format is:
+                     classname:classid@file. See get_message_receivers
      */
-    protected function process_new_message(immutable_message $message, array $receivers) {
+    public function process_message(immutable_message $message): array {
+        $interestedreceivers = $this->filter_interested_receivers($message, $this->messagereceivers);
 
-        if ($this->receivermode === processing_style::RECEIVER_PREFERENCE) {
-            // Receivers are allowed to express their preference, and at least one of them
-            // wants to process messages using the "durable" style. Persist the message, then
-            // it will be processed via the message_processor task.
-            if ($this->contains_durable_receiver($receivers)) {
+        if ($message->is_persisted()) {
+            // TODO: This will get updated as part of #5
+            $this->process_stored_message($message, $interestedreceivers);
+        } else {
+            return $this->process_new_message($message, $interestedreceivers);
+        }
+    }
+
+    protected function process_new_message(immutable_message $message, array $receivers): array {
+        $ephemeralreceivers = $this->receivermode === processing_style::RECEIVER_PREFERENCE
+            ? $this->filter_ephemeral_receivers($receivers)
+            : ($this->receivermode === processing_style::EPHEMERAL ? $receivers : []);
+
+        $durablereceivers = $this->receivermode === processing_style::RECEIVER_PREFERENCE
+            ? $this->filter_durable_receivers($receivers)
+            : ($this->receivermode === processing_style::DURABLE ? $receivers : []);
+
+        if (!empty($durablereceivers)) {
+            try {
                 $this->write_to_durable_storage($message);
+                $persisted = true;
+            } catch (Exception $e) {
+                $persisted = false;
             }
-
-            // Receivers are allowed to express their preference, hand the message off to any
-            // receiver that wishes to be ephemeral. It will never be tried again after this.
-            $ephemeralresults = array_map(
-                fn(message_receiver $receiver): bool => $receiver->process_message($message),
-                $this->filter_ephemeral_receivers($receivers)
-            );
         }
 
-        // All receivers must be treated as ephemeral.
-        if ($this->receivermode === processing_style::EPHEMERAL) {
-            $ephemeralresults = array_map(
-                fn(message_receiver $receiver): bool => $receiver->process_message($message),
-                $receivers
-            );
-        }
+        $ephemeralresults = array_map(
+            fn(message_receiver $receiver): array => ['style' => processing_style::EPHEMERAL, 'result' => $receiver->process_message($message)],
+            $ephemeralreceivers
+        );
 
-        // All receivers must be treated as durable. Persist the message.
-        if ($this->receivermode === processing_style::DURABLE) {
-            $this->write_to_durable_storage($message);
-        }
+        $durableresults = array_map(
+            fn() => ['style' => processing_style::DURABLE, 'result' => $persisted],
+            $durablereceivers
+        );
+
+        return $durableresults + $ephemeralresults;
     }
 
     /**
@@ -108,10 +114,23 @@ class message_processor {
      * @return message_receiver[]
      */
     protected function get_message_receivers(): array {
-        return array_merge(...array_values(array_map(
+        global $CFG;
+
+        $receiverinstances = array_merge(...array_values(array_map(
             fn(array $plugins): array => array_merge(...array_values(array_map('call_user_func', $plugins))),
             get_plugins_with_function('build_message_receivers', 'messagebroker.php')
         )));
+
+        return array_combine(
+            array_map(
+                fn(message_receiver $receiver): string =>
+                    get_class($receiver) . ':' .
+                    spl_object_id($receiver) . '@' .
+                    str_replace($CFG->dirroot, '', (new ReflectionClass($receiver))->getFileName()),
+                $receiverinstances
+            ),
+            $receiverinstances
+        );
     }
 
     /**
