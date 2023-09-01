@@ -24,3 +24,4 @@ $string['processingstyle:ephemeral'] = 'Ephemeral';
 $string['processingstyle:receiver_preference'] = 'Receiver preference';
 $string['receivemode'] = 'Message receiving mode';
 $string['receivemode_help'] = 'Specifies how receivers will be treated when a message enters the system. When a value is selected, all receivers will be sent messages through the selected process (ephemeral/durable). When set to "Receiver preference" then the receivers preferred method will be used.<ul><li>Ephemeral: Receiver will receive and be required to process the message the before the message is confirmed as received by Moodle (Moodle doesn\'t retry these receivers).</li><li>Durable: Receiver will receive and process the message in the background (Moodle will continue to retry the message internally until the receiver gives a positive response).</li></ul>';
+$string['eventtestmessagereceived'] = 'Message Broker Test';
