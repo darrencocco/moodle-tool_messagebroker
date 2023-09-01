@@ -4,6 +4,7 @@ namespace tool_messagebroker;
 use core\task\scheduled_task;
 use tool_messagebroker\message\durable_dao_factory;
 use tool_messagebroker\message\durable_dao_interface;
+use tool_messagebroker\receiver\processing_style;
 
 class durable_message_processor extends scheduled_task {
 
@@ -12,9 +13,9 @@ class durable_message_processor extends scheduled_task {
     }
 
     public function execute() {
-        $daovariant = 'mbdatastore_standarddb'; // TODO: replace with setting.
+        $daovariant = 'standarddb'; // TODO: replace with setting.
         $dao = durable_dao_factory::make_durable_dao($daovariant);
-        $processor = message_processor::instance();
+        $processor = message_processor::instance(processing_style::RECEIVER_PREFERENCE, $dao);
         $maxmessagecount = 10; // TODO: replace with setting.
         $messages = $dao->get_upto_n_unprocessed_messages($maxmessagecount);
         foreach ($messages as $message) {

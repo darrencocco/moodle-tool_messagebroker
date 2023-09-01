@@ -62,7 +62,7 @@ class message_processor {
 
         if ($message->is_persisted()) {
             // TODO: This will get updated as part of #5
-            $this->process_stored_message($message, $interestedreceivers);
+            return $this->process_stored_message($message, $interestedreceivers);
         } else {
             return $this->process_new_message($message, $interestedreceivers);
         }
@@ -102,12 +102,13 @@ class message_processor {
     /**
      * @param immutable_message $message
      * @param message_receiver[] $receivers
-     * @return void
+     * @return bool[]
      */
-    protected function process_stored_message(immutable_message $message, array $receivers) {
-        foreach ($this->filter_durable_receivers($receivers) as $receiver) {
-            $receiver->process_message($message);
-        }
+    protected function process_stored_message(immutable_message $message, array $receivers): array {
+        return array_map(
+            fn(message_receiver $receiver): bool => $receiver->process_message($message),
+            $receivers
+        );
     }
 
     /**
