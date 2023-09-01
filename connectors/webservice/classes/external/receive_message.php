@@ -2,6 +2,7 @@
 
 namespace mbconnector_webservice\external;
 
+use context_system;
 use external_api;
 use external_value;
 use moodle_exception;
@@ -12,7 +13,10 @@ use tool_messagebroker\receiver\processing_style;
 class receive_message extends external_api {
 
     public static function execute(string $topic, string $body) {
-        // TODO: authorisation
+        global $USER;
+
+        require_capability('tool/messagebroker:submitmessage', context_system::instance(), $USER);
+
         $messagebody = json_decode($body);
 
         if ($messagebody === null && json_last_error() !== JSON_ERROR_NONE) {
