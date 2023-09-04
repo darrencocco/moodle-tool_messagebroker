@@ -1,7 +1,8 @@
 <?php
-namespace mbdatastore_standarddb;
+namespace mbdatastore_standarddb\task;
 
 use core\task\scheduled_task;
+use mbdatastore_standarddb\durable_dao_factory;
 
 class durable_message_cleaner extends scheduled_task {
 
