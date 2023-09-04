@@ -34,7 +34,7 @@ class receive_message extends external_api {
 
         return [
             'success' => array_reduce($results, $everythingsucceeds, true),
-            'stored' => array_reduce($durableresults, $everythingsucceeds, true),
+            'stored' => !empty($durableresults) && array_reduce($durableresults, $everythingsucceeds, true),
             'receivers' => count($results)
         ];
     }
