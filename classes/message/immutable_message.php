@@ -29,7 +29,7 @@ class immutable_message {
     }
 
     /**
-     * @return string
+     * @return stdClass
      */
     public function get_body(): stdClass {
         return $this->body;
