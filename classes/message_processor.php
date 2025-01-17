@@ -20,13 +20,16 @@ class message_processor {
 
     private string $receivermode;
 
-    private static ?message_processor $instance = null;
+    private static array $instances = [];
 
     public static function instance(string $receivermode, ?durable_dao_interface $dao = null): self {
-        if (is_null(self::$instance)) {
-            self::$instance = new message_processor($receivermode, $dao);
+        $instancehash = $receivermode . '_' . ($dao ? spl_object_hash($dao) : 'default');
+
+        if (!isset(self::$instances[$instancehash])) {
+            self::$instances[$instancehash] = new message_processor($receivermode, $dao);
         }
-        return self::$instance;
+
+        return self::$instances[$instancehash];
     }
 
     protected function __construct(string $receivermode, ?durable_dao_interface $dao = null) {
