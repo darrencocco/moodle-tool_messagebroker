@@ -10,6 +10,10 @@ use tool_messagebroker\message\received_message;
 use tool_messagebroker\message_processor;
 use tool_messagebroker\receiver\processing_style;
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->libdir . '/externallib.php');
+
 class receive_message extends external_api {
 
     public static function execute(string $topic, string $body) {
