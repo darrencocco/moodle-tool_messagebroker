@@ -3,6 +3,7 @@ namespace tool_messagebroker\receiver;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_context\system;
 use tool_messagebroker\event\test_message_received;
 use tool_messagebroker\message\immutable_message;
 
@@ -23,7 +24,7 @@ class dummy_ephemeral implements message_receiver {
         global $USER;
         test_message_received::create([
             'userid' => $USER->id,
-            'context' => \context_system::instance(),
+            'context' => system::instance(),
             'other' => [
                 'type' => $this->get_preferred_message_processing_method(),
                 'topic' => $message->get_topic(),
